@@ -42,6 +42,12 @@ fn parseInput(allocator: Allocator, input: []const u8) ![]Parsed {
     return result.items;
 }
 
+// Found this myself, got lazy for second part to adapt this to a ternary approach
+// 0 => +
+// 1 => *
+// 2 => ||
+// Instead relied on recursion by reusing parts of this solution:
+// https://ziggit.dev/t/aoc-2024-day-7/7196/2
 fn hasCombination(total: u64, numbers: []u64) bool {
     const nb_bits = numbers.len - 1;
     const max = std.math.pow(usize, 2, nb_bits);
@@ -86,6 +92,10 @@ fn concat(a: u64, b: u64) u64 {
     const len_b: u64 = std.math.log10_int(b) + 1;
     const exp = std.math.powi(u64, 10, len_b) catch unreachable;
     return a * exp + b;
+}
+
+test "concat(123, 456) should return 123456" {
+    try std.testing.expect(concat(123, 456) == 123456);
 }
 
 // Spoiled myself the solution from ziggit.dev to rely on recursion instead of combinatorial approach
